@@ -1,0 +1,19 @@
+#!/bin/sh
+
+name="Pick a Radio Station"
+
+trap 'printf "%b" "\033]0;${name}\007"' DEBUG
+
+stations=$(cat $HOME/.local/share/radio-stations.tsv)
+
+printf "%s" "${stations}" | cut -f1 | nl
+read line
+station=$(printf "%s" "${stations}" | head -n ${line} | tail -n 1)
+
+printf '\e[8;3;80t'
+clear
+name=$(printf "%s\n" "${station}" | cut -f1)
+url=$(printf "%s" "${station}" | cut -f2)
+
+mpv --term-status-msg="" --term-title="test" "${url}" |\
+  sed -e 's/(+).*//g' -e 's/icy-title://g' -e "s/File tags:/${name}/g" -e 's/AO:.*//g' -e 's/\[.*\]//g'
