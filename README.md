@@ -17,6 +17,8 @@ To see what protocols your version of `mpv` has run `mpv --list-protocols`
   + read
   + printf
   + trap
+  + nl
+  + cut
 - mpv
 - sed
 - A terminal to run the program in (tested with urxvt)
